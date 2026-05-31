@@ -29,7 +29,7 @@ out = cv2.VideoWriter(
     "output.mp4",
     cv2.VideoWriter_fourcc(*'XVID'),
     fps,
-    (width * 2, height * 2)
+    (width * 4, height * 4)
 )
 
 frame_count = 0
@@ -38,7 +38,7 @@ while True:
     if not ret:
         break
 
-    enhanced, _ = upsampler.enhance(frame, outscale=2)
+    enhanced, _ = upsampler.enhance(frame, outscale=4)
     out.write(enhanced)
 
     frame_count += 1
