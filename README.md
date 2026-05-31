@@ -15,6 +15,33 @@ Real-ESRGAN neural network running locally on your NVIDIA GPU.
 - Anaconda
 - NVIDIA CUDA drivers
 
+## Setup
+
+```bash
+# 1. Clone this repo
+git clone https://github.com/CoderCartikey/GhostRes.git
+cd GhostRes
+
+# 2. Create conda environment
+conda create -n webcam-ai python=3.10
+conda activate webcam-ai
+
+# 3. Install PyTorch with CUDA
+pip install torch==2.2.0 torchvision==0.17.0 --index-url https://download.pytorch.org/whl/cu121
+
+# 4. Install dependencies
+pip install "numpy<2"
+pip install basicsr facexlib gfpgan realesrgan
+
+# 5. Clone Real-ESRGAN separately
+git clone https://github.com/xinntao/Real-ESRGAN.git C:\Users\YOUR_USERNAME\Real-ESRGAN
+
+# 6. Download model weights
+python download_model.py
+```
+
+> ⚠️ numpy must be < 2 — if it upgrades automatically, run `pip install "numpy<2" --force-reinstall --no-deps`
+
 ## Usage
 
 1. Rename your video to `input.mp4` and put it in project folder *(yes you have to rename it dawg)*
