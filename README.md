@@ -51,6 +51,19 @@ python video_enhance.py
 ```
 3. Enhanced output saved as `output.mp4` *(may take time depending on your GPU — go touch grass)*
 
+
+## How it works
+
+When you upscale a video the normal way, pixels just get stretched — 
+edges become blurry and details get lost.
+
+GhostRes uses Real-ESRGAN, a neural network trained on thousands of 
+images, to **predict** what those missing pixels should look like — 
+not just stretch them. It reconstructs edges, textures, and fine 
+details that weren't visible in the original footage.
+
+Result: your 480p video doesn't just get bigger — it gets sharper.
+
 ## Results
 
 *(before/after screenshots coming soon)*
