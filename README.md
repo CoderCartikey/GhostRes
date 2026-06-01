@@ -51,7 +51,7 @@ python video_enhance.py
 ```
 3. Enhanced output saved as `output.mp4` *(may take time depending on your GPU — go touch grass)*
 
-## Demo
+## Video Demo
 
 ![GhostResDemo](GhostResDEMO.mp4)
 
