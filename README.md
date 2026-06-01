@@ -53,7 +53,7 @@ python video_enhance.py
 
 ## Demo
 
-https://github.com/CoderCartikey/GhostRes/blob/main/GhostRes DEMO.mp4
+![GhostRes Demo](GhostResDEMO.mp4)
 
 
 ## How it works
