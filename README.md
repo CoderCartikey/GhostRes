@@ -2,7 +2,7 @@
 
 Open source · No API · No internet · No subscription · Your videos stay on your PC 🔒
 
-Takes a low-resolution video (480p/720p) and enhances it to 2x resolution using 
+Takes a low-resolution video (480p/720p) and enhances it to 2x/4x resolution using 
 Real-ESRGAN neural network running locally on your NVIDIA GPU.
 
 ## Requirements
