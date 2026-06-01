@@ -51,6 +51,10 @@ python video_enhance.py
 ```
 3. Enhanced output saved as `output.mp4` *(may take time depending on your GPU — go touch grass)*
 
+## Demo
+
+https://github.com/CoderCartikey/GhostRes/blob/main/GhostRes DEMO.mp4
+
 
 ## How it works
 
