@@ -53,7 +53,7 @@ python video_enhance.py
 
 ## Demo
 
-![GhostRes Demo](GhostResDEMO.mp4)
+![GhostResDemo](GhostResDEMO.mp4)
 
 
 ## How it works
@@ -69,7 +69,7 @@ details that weren't visible in the original footage.
 Result: your 480p video doesn't just get bigger — it gets sharper.
 
 ## Results
-(GhostRes1.png)
+![Results](GhostRes1.png)
 
 ## Built by
 Kartikey Bhardwaj · B.Tech CSE · DIT University · 2nd Year *(I guess passed.)*
