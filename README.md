@@ -74,8 +74,8 @@ python video_enhance.py
 ---
 
 ## Results
-
-![Results](GhostRes1.png)
+<img src="https://github.com/user-attachments/assets/f8124c58-41bc-4a38-b092-89f15df6f12d" width="50%"><img src="https://github.com/user-attachments/assets/b759f34b-7340-4788-98b8-23aa4dc3ae43" width="50%">
+<img src="https://github.com/user-attachments/assets/04626a95-688f-4aae-93ca-105d74f5a411" width="50%"/><img src="https://github.com/user-attachments/assets/00e7636a-bc9b-49d1-b49c-c4b765a785bc" width="50%"/>
 
 ---
 
