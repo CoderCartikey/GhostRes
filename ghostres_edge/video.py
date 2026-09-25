@@ -17,6 +17,10 @@ class VideoResult:
     total_frames: int
     processed_frames: int
     processing_seconds: float
+    inference_seconds: float
+    ms_per_frame: float
+    ai_fps: float
+    total_fps: float
 
 
 def enhance_video(
@@ -68,6 +72,14 @@ def enhance_video(
     print(f"Backend: {engine.name}")
 
     processed_frames = 0
+    total_inference_time = 0.0
+
+    try:
+        import torch
+        has_cuda = torch.cuda.is_available()
+    except ImportError:
+        has_cuda = False
+
     started = time.perf_counter()
 
     try:
@@ -76,7 +88,15 @@ def enhance_video(
             if not success:
                 break
 
+            if has_cuda:
+                torch.cuda.synchronize()
+            t0 = time.perf_counter()
+
             enhanced = engine.enhance(frame)
+
+            if has_cuda:
+                torch.cuda.synchronize()
+            total_inference_time += time.perf_counter() - t0
 
             if enhanced.shape[1] != output_width or enhanced.shape[0] != output_height:
                 raise RuntimeError(
@@ -92,6 +112,10 @@ def enhance_video(
 
     elapsed = time.perf_counter() - started
 
+    ms_per_frame = (total_inference_time / processed_frames * 1000.0) if processed_frames > 0 else 0.0
+    ai_fps = (processed_frames / total_inference_time) if total_inference_time > 0 else 0.0
+    total_fps = (processed_frames / elapsed) if elapsed > 0 else 0.0
+
     return VideoResult(
         input_resolution=f"{width}x{height}",
         output_resolution=f"{output_width}x{output_height}",
@@ -99,4 +123,8 @@ def enhance_video(
         total_frames=total_frames,
         processed_frames=processed_frames,
         processing_seconds=elapsed,
+        inference_seconds=total_inference_time,
+        ms_per_frame=ms_per_frame,
+        ai_fps=ai_fps,
+        total_fps=total_fps,
     )

@@ -24,10 +24,16 @@ class CudaRealESRGANEngine(EnhancementEngine):
         *,
         realesrgan_root: Path,
         weights_path: Path,
+        scale: int = 4,
         tile: int = 128,
         tile_pad: int = 10,
         half: bool = False,
     ) -> None:
+        if scale not in (2, 4):
+            raise ValueError(f"Unsupported scale: {scale}. Must be 2 or 4.")
+        self.scale = scale
+        self.name = f"CUDA Real-ESRGAN x{scale}plus"
+
         root = realesrgan_root.resolve()
         weights = weights_path.resolve()
 
@@ -39,6 +45,18 @@ class CudaRealESRGANEngine(EnhancementEngine):
         root_text = str(root)
         if root_text not in sys.path:
             sys.path.insert(0, root_text)
+
+        if sys.platform == "win32":
+            import os
+            for candidate in [
+                Path(sys.prefix) / "Library" / "bin",
+                Path(sys.prefix).parent.parent / "Library" / "bin",
+            ]:
+                if candidate.is_dir():
+                    try:
+                        os.add_dll_directory(str(candidate))
+                    except (OSError, AttributeError):
+                        pass
 
         from basicsr.archs.rrdbnet_arch import RRDBNet
         from realesrgan import RealESRGANer
@@ -52,15 +70,20 @@ class CudaRealESRGANEngine(EnhancementEngine):
             scale=self.scale,
         )
 
-        self._upsampler = RealESRGANer(
-            scale=self.scale,
-            model_path=str(weights),
-            model=model,
-            tile=tile,
-            tile_pad=tile_pad,
-            pre_pad=0,
-            half=half,
-        )
+        try:
+            self._upsampler = RealESRGANer(
+                scale=self.scale,
+                model_path=str(weights),
+                model=model,
+                tile=tile,
+                tile_pad=tile_pad,
+                pre_pad=0,
+                half=half,
+            )
+        except Exception as e:
+            raise RuntimeError(
+                f"Failed to load Real-ESRGAN x{scale} model weights from '{weights}': {e}"
+            ) from e
 
     def enhance(self, frame: np.ndarray) -> np.ndarray:
         enhanced, _ = self._upsampler.enhance(frame, outscale=self.scale)

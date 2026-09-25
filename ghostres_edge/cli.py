@@ -20,9 +20,17 @@ def parse_arguments() -> argparse.Namespace:
         help="New output filename. Audio preservation comes in the next phase.",
     )
     parser.add_argument(
+        "--scale",
+        type=int,
+        choices=[2, 4],
+        default=4,
+        help="Super-resolution scaling factor (2 or 4, default: 4).",
+    )
+    parser.add_argument(
         "--weights",
         type=Path,
-        default=Path("weights/RealESRGAN_x4plus.pth"),
+        default=None,
+        help="Path to model weights. Defaults to matching scale weights (weights/RealESRGAN_x{scale}plus.pth).",
     )
     parser.add_argument(
         "--realesrgan-root",
@@ -39,10 +47,15 @@ def parse_arguments() -> argparse.Namespace:
 def main() -> None:
     args = parse_arguments()
 
-    print("Loading GhostRes Edge CUDA engine...")
+    weights_path = args.weights
+    if weights_path is None:
+        weights_path = Path(f"weights/RealESRGAN_x{args.scale}plus.pth")
+
+    print(f"Loading GhostRes Edge CUDA engine (scale: {args.scale}x)...")
     engine = CudaRealESRGANEngine(
         realesrgan_root=args.realesrgan_root,
-        weights_path=args.weights,
+        weights_path=weights_path,
+        scale=args.scale,
         tile=args.tile,
         tile_pad=args.tile_pad,
         half=False,
@@ -56,8 +69,11 @@ def main() -> None:
 
     print("\nGhostRes Edge processing complete")
     print(f"Frames: {result.processed_frames}/{result.total_frames}")
-    print(f"Processing time: {result.processing_seconds:.2f} seconds")
     print(f"Output: {result.output_resolution}")
+    print(f"Inference latency: {result.ms_per_frame:.2f} ms/frame")
+    print(f"AI FPS: {result.ai_fps:.2f}")
+    print(f"Total processing time: {result.processing_seconds:.2f} seconds")
+    print(f"Total FPS: {result.total_fps:.2f}")
     print("Notice: this intermediate output does not yet preserve audio.")
 
 
