@@ -25,6 +25,13 @@ def parse_arguments() -> argparse.Namespace:
 
 
 def main() -> None:
+    if sys.platform == "win32":
+        try:
+            sys.stdout.reconfigure(encoding="utf-8")
+            sys.stderr.reconfigure(encoding="utf-8")
+        except AttributeError:
+            pass
+
     args = parse_arguments()
 
     model_path = args.model.resolve()
