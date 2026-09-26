@@ -302,7 +302,7 @@ class GhostResDesktop(ctk.CTk):
         scale: int,
     ) -> None:
         self.progress.stop()
-        self.progress.set(1)
+        self.progress.grid_remove()
         self.restore_button.configure(state="normal")
 
         self.last_output = output_path
@@ -327,7 +327,7 @@ class GhostResDesktop(ctk.CTk):
 
     def restore_failed(self, message: str) -> None:
         self.progress.stop()
-        self.progress.set(0)
+        self.progress.grid_remove()
         self.restore_button.configure(state="normal")
         self.status_label.configure(
             text="Restoration failed. Read the error message and terminal output.",
