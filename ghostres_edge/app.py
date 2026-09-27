@@ -253,6 +253,8 @@ class GhostResDesktop(ctk.CTk):
         )
 
         self.restore_button.configure(state="disabled")
+        self.progress.grid()
+        self.progress.set(0)
         self.progress.start()
         self.status_label.configure(
             text=f"Loading CUDA Real-ESRGAN x{scale} model and restoring frames…",
