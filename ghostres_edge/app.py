@@ -323,7 +323,9 @@ class GhostResDesktop(ctk.CTk):
             ),
             text_color="#E7EAF0",
         )
-        self.output_label.configure(text=f"Saved to: {output_path}")
+        self.output_label.configure(
+            text=f"Output ready: outputs\\{output_path.name}  •  Last run: {scale}×"
+                                    )
         self.open_video_button.configure(state="normal")
         self.open_folder_button.configure(state="normal")
 
